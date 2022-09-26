@@ -47,6 +47,10 @@ dependencies {
 
 	//Swagger
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+	// Rabbitmq & Docker
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
 
 tasks.named('test') {
