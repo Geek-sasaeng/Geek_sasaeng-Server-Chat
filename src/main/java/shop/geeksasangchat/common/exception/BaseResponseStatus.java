@@ -34,7 +34,9 @@ public enum BaseResponseStatus {
      * 4000 : Database, Server 오류
      */
 
-    INTERNAL_SERVER_ERROR(false,4000,"서버 오류입니다.");
+    INTERNAL_SERVER_ERROR(false,4000,"서버 오류입니다."),
+    DATABASE_SERVER_ERROR(false,4001,"데이터베이스 서버 오류입니다.");
+
 
 
     // 5000 : 필요시 만들어서 쓰세요
