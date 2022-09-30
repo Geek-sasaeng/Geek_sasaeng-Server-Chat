@@ -1,4 +1,4 @@
-package shop.geeksasangchat.config.exception;
+package shop.geeksasangchat.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

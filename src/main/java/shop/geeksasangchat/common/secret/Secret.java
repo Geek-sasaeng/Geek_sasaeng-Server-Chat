@@ -1,4 +1,4 @@
-package shop.geeksasangchat.config.secret;
+package shop.geeksasangchat.common.secret;
 
 
 

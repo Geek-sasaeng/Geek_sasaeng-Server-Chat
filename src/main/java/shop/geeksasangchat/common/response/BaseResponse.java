@@ -1,13 +1,13 @@
-package shop.geeksasangchat.config.response;
+package shop.geeksasangchat.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import shop.geeksasangchat.config.exception.BaseResponseStatus;
+import shop.geeksasangchat.common.exception.BaseResponseStatus;
 
-import static shop.geeksasangchat.config.exception.BaseResponseStatus.SUCCESS;
+import static shop.geeksasangchat.common.exception.BaseResponseStatus.SUCCESS;
 
 @Getter
 @AllArgsConstructor
@@ -34,5 +34,4 @@ public class BaseResponse<T> {
         this.message = status.getMessage();
         this.code = status.getCode();
     }
-
 }
