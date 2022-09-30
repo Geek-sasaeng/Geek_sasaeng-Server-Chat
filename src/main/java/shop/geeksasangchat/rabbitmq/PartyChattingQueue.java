@@ -31,7 +31,8 @@ public class PartyChattingQueue {
     }
 
     public void send(Chatting saveChatting, String chattingRoomId) {
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, "chatting.room." + chattingRoomId, saveChatting);
+        System.out.println("chattingRoomId = " + chattingRoomId);
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChatting);
     }
 }
 

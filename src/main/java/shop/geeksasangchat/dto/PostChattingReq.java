@@ -3,12 +3,16 @@ package shop.geeksasangchat.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+
 @NoArgsConstructor
 @Getter
-public
-class PostChattingReq {
+public class PostChattingReq {
 
+    @NotEmpty
     private String chattingRoomId;
+
+    @NotEmpty
     private String content;
 
     public PostChattingReq(String chattingRoomId, String content) {

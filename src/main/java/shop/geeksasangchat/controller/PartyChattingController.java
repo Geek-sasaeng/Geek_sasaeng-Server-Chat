@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shop.geeksasangchat.common.response.BaseResponse;
@@ -35,8 +36,9 @@ public class PartyChattingController {
     }
 
     @PostMapping("/chatting")
-    public BaseResponse<String> createPartyChatting(HttpServletRequest request, PostChattingReq dto){
+    public BaseResponse<String> createPartyChatting(HttpServletRequest request, @RequestBody PostChattingReq dto){
         JwtInfo jwtInfo = (JwtInfo) request.getAttribute("jwtInfo");
+        System.out.println("dto.getChattingRoomId() = " + dto.getChattingRoomId());
         partyChattingService.createChatting(jwtInfo.getUserId(), dto.getChattingRoomId(), dto.getContent());
         return null;
     }
