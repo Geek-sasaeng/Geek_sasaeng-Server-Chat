@@ -44,9 +44,9 @@ public class RabbitMqConfig {
 //    }
 
 
-    // 5번 튜토리얼 Consumer 빈 등록
-    @Bean
-    public Tut5Receiver receiver() {
-        return new Tut5Receiver();
-    }
+//    // 5번 튜토리얼 Consumer 빈 등록
+//    @Bean
+//    public Tut5Receiver receiver() {
+//        return new Tut5Receiver();
+//    }
 }
