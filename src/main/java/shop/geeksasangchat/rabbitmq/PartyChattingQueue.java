@@ -14,12 +14,12 @@ public class PartyChattingQueue {
 
     static final String EXCHANGE_NAME = "chatting-room-exchange";
     static final String QUEUE_NAME = "chatting-room-queue";
-    static final String ROUTING_KEY = "chatting.room.#";
+    static final String ROUTING_KEY = "chatting.room.#"; // 라우팅 키, publishing 하는 방법을 결정.
 
     public PartyChattingQueue(RabbitTemplate rabbitTemplate ) {
         this.rabbitTemplate = rabbitTemplate;
-        this.queue = new Queue(QUEUE_NAME, false);;
-        this.topicExchange = new TopicExchange(EXCHANGE_NAME);;
+        this.queue = new Queue(QUEUE_NAME, false); // 큐 생성
+        this.topicExchange = new TopicExchange(EXCHANGE_NAME); // exchange 생성
     }
 
     public Queue getQueue() {
@@ -30,9 +30,12 @@ public class PartyChattingQueue {
         return topicExchange;
     }
 
+    // publish 메소드: 큐애 메시지 보내기
     public void send(Chatting saveChatting, String chattingRoomId) {
+        System.out.println("====================" + chattingRoomId);
         System.out.println("chattingRoomId = " + chattingRoomId);
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChatting);
+        System.out.println("saveChatting = " + saveChatting);
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChatting); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
     }
 }
 
