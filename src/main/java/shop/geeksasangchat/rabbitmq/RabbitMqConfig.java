@@ -21,11 +21,13 @@ public class RabbitMqConfig {
 
     @Bean// 큐 생성 빈
     public PartyChattingQueue partyChattingQueueImpl(){
+        System.out.println("=========PartyChattingQueue 생성 및 빈 등록======");
         return new PartyChattingQueue(rabbitTemplate);
     }
 
     @Bean // 큐, exchange 바인딩 빈
-    Binding partyChattingQueueBinding(PartyChattingQueue queue) {
+    public Binding partyChattingQueueBinding(PartyChattingQueue queue) {
+        System.out.println("=========PartyChattingQueue 바인딩 등록======");
         return BindingBuilder.bind(queue.getQueue()).to(queue.getTopicExchange()).with(PartyChattingQueue.ROUTING_KEY); // bind(바인딩할 큐, exchange, 라우팅 키)
     }
 
@@ -49,4 +51,21 @@ public class RabbitMqConfig {
 //    public Tut5Receiver receiver() {
 //        return new Tut5Receiver();
 //    }
+
+    @Bean
+    public Queue hello() {
+        System.out.println("=========helo 큐 생성 및 빈 등록======");
+        return new Queue("hello");
+    }
+
+    @Bean
+    public Queue PartyChattingRoomQueueTest2() {
+        System.out.println("=========chattingRoomQueue 큐 생성 및 빈 등록======");
+        return new Queue("chatting-room-queue-test2");
+    }
+
+    @Bean
+    public TopicExchange PartyChattingRoomTopicTest2() {
+        return new TopicExchange("chatting-room-exchange-test2");
+    }
 }
