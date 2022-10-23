@@ -35,7 +35,7 @@ public class PartyChattingQueue {
         System.out.println("====================" + chattingRoomId);
         System.out.println("chattingRoomId = " + chattingRoomId);
         System.out.println("saveChatting = " + saveChatting);
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChatting); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChatting.content); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
     }
 }
 
