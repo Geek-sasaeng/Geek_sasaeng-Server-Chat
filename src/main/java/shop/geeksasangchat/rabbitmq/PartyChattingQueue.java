@@ -1,5 +1,7 @@
 package shop.geeksasangchat.rabbitmq;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -35,8 +37,15 @@ public class PartyChattingQueue {
         System.out.println("====================" + chattingRoomId);
         System.out.println("chattingRoomId = " + chattingRoomId);
         System.out.println("saveChatting = " + saveChatting);
-        String chatting = saveChatting.toString(); // Chatting 클래스 자체는 convertAndSend 메소드에서 전송 시 에러남
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, chatting); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
+        // json 형식으로 변환 후 전송
+        ObjectMapper mapper = new ObjectMapper();
+        String saveChattingJsonStr = null;
+        try {
+            saveChattingJsonStr = mapper.writeValueAsString(saveChatting);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
     }
 }
 
