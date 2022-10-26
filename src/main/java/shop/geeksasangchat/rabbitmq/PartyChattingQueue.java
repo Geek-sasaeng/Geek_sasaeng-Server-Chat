@@ -7,6 +7,7 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import shop.geeksasangchat.domain.Chatting;
+import shop.geeksasangchat.dto.PostChattingRes;
 
 public class PartyChattingQueue {
 
@@ -39,9 +40,10 @@ public class PartyChattingQueue {
         System.out.println("saveChatting = " + saveChatting);
         // json 형식으로 변환 후 전송
         ObjectMapper mapper = new ObjectMapper();
+        PostChattingRes postChattingRes = new PostChattingRes(saveChatting.getId(), saveChatting.getContent(), saveChatting.getBaseEntity().getCreatedAt());
         String saveChattingJsonStr = null;
         try {
-            saveChattingJsonStr = mapper.writeValueAsString(saveChatting);
+            saveChattingJsonStr = mapper.writeValueAsString(postChattingRes);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
