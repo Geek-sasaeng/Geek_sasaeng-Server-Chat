@@ -6,12 +6,12 @@
 ////TODO: rabbitmq 5번 튜토리얼 Consumer 코드임, 구독 및 수신 로컬 스프링에서는 테스트 성공.
 //public class Tut5Receiver {
 //
-//    @RabbitListener(queues = "chatting-room-queue-test")
+//    @RabbitListener(queues = "chatting-room-queue-test2")
 //    public void receive1(String in) throws InterruptedException {
 //        receive(in, 1);
 //    }
 //
-//    @RabbitListener(queues = "chatting-room-queue-test")
+//    @RabbitListener(queues = "chatting-room-queue-test2")
 //    public void receive2(String in) throws InterruptedException {
 //        receive(in, 2);
 //    }

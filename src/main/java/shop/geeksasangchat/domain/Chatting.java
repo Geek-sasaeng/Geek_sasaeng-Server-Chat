@@ -3,6 +3,7 @@ package shop.geeksasangchat.domain;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Unwrapped;
 import shop.geeksasangchat.common.domain.BaseEntity;
 
@@ -17,6 +18,9 @@ public class Chatting  implements Serializable {
     public String id;
 
     public String content;
+//
+//    @DocumentReference(lazy = true)
+//    private PartyChattingRoom partyChattingRoom;
 
     @Unwrapped(onEmpty = Unwrapped.OnEmpty.USE_EMPTY)
     private BaseEntity baseEntity;
@@ -25,6 +29,12 @@ public class Chatting  implements Serializable {
         this.content = content;
         this.baseEntity = new BaseEntity();
     }
+//
+//    public Chatting(String content, PartyChattingRoom partyChattingRoom) {
+//        this.content = content;
+//        this.partyChattingRoom = partyChattingRoom;
+//        this.baseEntity = new BaseEntity();
+//    }
 }
 
 /**
