@@ -1,5 +1,6 @@
 package shop.geeksasangchat.domain;
 
+import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 //Serializable : 자바에서 직렬화를 통해 object를 빠르게 보낼 수 있음/ 외부로 데이터 보내는데 필요?
 @Document //@Document는객체를 몽고DB에 영속화시킴 = SpringDataJpa의 @Entity와 같은 역할
 @ToString
+@Getter
 public class Chatting  implements Serializable {
 
     @Id
