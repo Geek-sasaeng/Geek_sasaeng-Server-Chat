@@ -17,9 +17,9 @@ public class PostChattingRes {
     @NotEmpty
     private String content;
 
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
 
-    public PostChattingRes(String chattingRoomId, String content, LocalDateTime createdAt) {
+    public PostChattingRes(String chattingRoomId, String content, Timestamp createdAt) {
         this.chattingRoomId = chattingRoomId;
         this.content = content;
         this.createdAt = createdAt;

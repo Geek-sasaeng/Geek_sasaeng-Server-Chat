@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 public class BaseEntity implements Serializable {
 
     @CreatedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt; // 등록일
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp createdAt; // 등록일
 
     @LastModifiedDate
-    private LocalDateTime updatedAt;
+    private Timestamp updatedAt;
 
     private BaseStatus status;  //알아서 String으로 들어감
 
