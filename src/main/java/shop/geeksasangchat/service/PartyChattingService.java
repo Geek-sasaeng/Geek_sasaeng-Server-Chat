@@ -32,10 +32,10 @@ public class PartyChattingService {
     }
 
     @Transactional(readOnly = false)
-    public void createChatting(int userId, String chattingRoomId, String content) {
+    public void createChatting(int userId, String chattingRoomId, String content, int participantsCnt) {
         Chatting chatting = new Chatting(content);
         Chatting saveChatting = chattingRepository.save(chatting);
-        partyChattingQueue.send(saveChatting, chattingRoomId); // 저장한 채팅 rabbitmq를 이용해 Consumer에게 메시지 전송
+        partyChattingQueue.send(saveChatting, chattingRoomId, participantsCnt); // 저장한 채팅 rabbitmq를 이용해 Consumer에게 메시지 전송
 
     }
 

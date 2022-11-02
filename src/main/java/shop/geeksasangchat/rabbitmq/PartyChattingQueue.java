@@ -35,7 +35,7 @@ public class PartyChattingQueue {
     }
 
     // publish 메소드: 큐애 메시지 보내기
-    public void send(Chatting saveChatting, String chattingRoomId) {
+    public void send(Chatting saveChatting, String chattingRoomId, int participantsCnt) {
         System.out.println("====================" + chattingRoomId);
         System.out.println("chattingRoomId = " + chattingRoomId);
         System.out.println("saveChatting = " + saveChatting);
@@ -48,7 +48,9 @@ public class PartyChattingQueue {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
+        for(int i=0;i<participantsCnt;i++){
+            rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
+        }
     }
 }
 
