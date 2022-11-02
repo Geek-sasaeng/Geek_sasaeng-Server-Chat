@@ -40,7 +40,7 @@ public class PartyChattingController {
     public BaseResponse<String> createPartyChatting(HttpServletRequest request, @RequestBody PostChattingReq dto){
         JwtInfo jwtInfo = (JwtInfo) request.getAttribute("jwtInfo");
         System.out.println("dto.getChattingRoomId() = " + dto.getChattingRoomId());
-        partyChattingService.createChatting(jwtInfo.getUserId(), dto.getChattingRoomId(), dto.getContent());
+        partyChattingService.createChatting(jwtInfo.getUserId(), dto.getChattingRoomId(), dto.getContent(), dto.getParticipantsCnt());
         return new BaseResponse("채팅송신을 성공했습니다.");
     }
 

@@ -16,10 +16,10 @@ public class BaseEntity implements Serializable {
 
     @CreatedDate
 //    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Timestamp createdAt; // 등록일
+    private LocalDateTime createdAt; // 등록일
 
     @LastModifiedDate
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 
     private BaseStatus status;  //알아서 String으로 들어감
 

@@ -19,9 +19,9 @@ public class PostChattingRes {
     private String content;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
-    public PostChattingRes(String chattingRoomId, String content, Timestamp createdAt) {
+    public PostChattingRes(String chattingRoomId, String content, LocalDateTime createdAt) {
         this.chattingRoomId = chattingRoomId;
         this.content = content;
         this.createdAt = createdAt;
