@@ -41,7 +41,7 @@ public class PartyChattingQueue {
         System.out.println("saveChatting = " + saveChatting);
         // json 형식으로 변환 후 전송
         ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        PostChattingRes postChattingRes = new PostChattingRes(saveChatting.getId(), saveChatting.getContent(), saveChatting.getBaseEntity().getCreatedAt()); // ObjectMapper가 java8의 LocalDateTime을 지원하지 않는 에러 해결
+        PostChattingRes postChattingRes = new PostChattingRes(chattingRoomId, saveChatting.getContent(), saveChatting.getBaseEntity().getCreatedAt()); // ObjectMapper가 java8의 LocalDateTime을 지원하지 않는 에러 해결
         String saveChattingJsonStr = null;
         try {
             saveChattingJsonStr = mapper.writeValueAsString(postChattingRes);
