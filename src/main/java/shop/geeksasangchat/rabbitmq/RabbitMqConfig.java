@@ -72,13 +72,13 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    public Queue PartyChattingRoomQueueTest2() {
+    public Queue PartyChattingRoomQueueTest5() {
         System.out.println("=========chattingRoomQueue 큐 생성 및 빈 등록======");
-        return new Queue("chatting-room-queue-test2");
+        return new Queue("chatting-room-queue-test5");
     }
 
     @Bean
-    public TopicExchange PartyChattingRoomTopicTest2() {
-        return new TopicExchange("chatting-room-exchange-test2");
+    public TopicExchange PartyChattingRoomTopicTest5() {
+        return new TopicExchange("chatting-room-exchange-test5");
     }
 }
