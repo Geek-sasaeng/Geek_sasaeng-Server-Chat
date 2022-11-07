@@ -79,6 +79,6 @@ public class RabbitMqConfig {
 
     @Bean
     public TopicExchange PartyChattingRoomTopicTest5() {
-        return new TopicExchange("chatting-room-exchange-test5");
+        return new TopicExchange("chatting-room-exchange-test5", true, false);
     }
 }
