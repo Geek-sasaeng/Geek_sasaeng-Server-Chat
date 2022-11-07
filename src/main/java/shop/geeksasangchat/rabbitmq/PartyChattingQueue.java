@@ -16,8 +16,8 @@ public class PartyChattingQueue {
     private TopicExchange topicExchange;
     private RabbitTemplate rabbitTemplate;
 
-    static final String EXCHANGE_NAME = "chatting-room-exchange-test5";
-    static final String QUEUE_NAME = "chatting-room-queue-test5";
+    static final String EXCHANGE_NAME = "chatting-room-exchange-test6";
+    static final String QUEUE_NAME = "chatting-room-queue-test6";
     static final String ROUTING_KEY = "chatting.test.room.#"; // 라우팅 키, publishing 하는 방법을 결정.
 
     public PartyChattingQueue(RabbitTemplate rabbitTemplate ) {
