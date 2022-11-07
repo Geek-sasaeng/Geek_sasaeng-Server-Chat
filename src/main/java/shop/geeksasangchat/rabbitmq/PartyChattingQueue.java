@@ -22,7 +22,7 @@ public class PartyChattingQueue {
 
     public PartyChattingQueue(RabbitTemplate rabbitTemplate ) {
         this.rabbitTemplate = rabbitTemplate;
-        this.queue = new Queue(QUEUE_NAME, true); // 큐 생성
+        this.queue = new Queue(QUEUE_NAME, false); // 큐 생성
         this.topicExchange = new TopicExchange(EXCHANGE_NAME); // exchange 생성
     }
 
