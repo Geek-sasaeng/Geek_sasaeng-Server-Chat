@@ -1,5 +1,6 @@
 package shop.geeksasangchat.rabbitmq;
 
+import com.rabbitmq.client.impl.AMQImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -75,12 +76,6 @@ public class RabbitMqConfig {
         System.out.println("=========chattingRoomQueue 큐 생성 및 빈 등록======");
         return new Queue("chatting-room-queue-test2");
     }
-//
-//    @Bean
-//    public Queue PartyChattingRoomQueueTest5() {
-//        System.out.println("=========chattingRoomQueue5 큐 생성 및 빈 등록======");
-//        return new Queue("chatting-room-queue-test5");
-//    }
 
     @Bean
     public TopicExchange PartyChattingRoomTopicTest2() {

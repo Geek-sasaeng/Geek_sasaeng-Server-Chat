@@ -1,8 +1,13 @@
 package shop.geeksasangchat.service;
 
+import com.rabbitmq.client.AMQP;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.geeksasangchat.domain.Chatting;
