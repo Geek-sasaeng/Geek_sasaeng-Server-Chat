@@ -7,6 +7,8 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import shop.geeksasangchat.domain.Chatting;
 import shop.geeksasangchat.dto.PostChattingRes;
 
@@ -16,9 +18,10 @@ public class PartyChattingQueue {
     private TopicExchange topicExchange;
     private RabbitTemplate rabbitTemplate;
 
-    static final String EXCHANGE_NAME = "chatting-room-exchange-test6";
-    static final String QUEUE_NAME = "chatting-room-queue-test6";
-    static final String ROUTING_KEY = "chatting.test.room.#"; // 라우팅 키, publishing 하는 방법을 결정.
+    static final String EXCHANGE_NAME = "chatting-room-exchange-test10";
+    static final String QUEUE_NAME = "test1";
+    static final String ROUTING_KEY = "chatting.test.room3.#"; // 라우팅 키, publishing 하는 방법을 결정.
+    static final String FANOUT_EXCHANGE_NAME = "test1.fanout";
 
     public PartyChattingQueue(RabbitTemplate rabbitTemplate ) {
         this.rabbitTemplate = rabbitTemplate;
@@ -50,6 +53,7 @@ public class PartyChattingQueue {
         }
         for(int i=0;i<participantsCnt;i++){
             rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
+//            rabbitTemplate.convertAndSend(FANOUT_EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr);
         }
     }
 }
