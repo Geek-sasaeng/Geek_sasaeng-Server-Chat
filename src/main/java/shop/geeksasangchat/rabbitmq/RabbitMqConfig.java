@@ -1,12 +1,12 @@
 package shop.geeksasangchat.rabbitmq;
 
-import com.rabbitmq.client.impl.AMQImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,8 +14,21 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class RabbitMqConfig {
+    @Value("${spring.rabbitmq.host}")
+    private String address;
+
+    @Value("${spring.rabbitmq.username}")
+    private String username;
+
+    @Value("${spring.rabbitmq.password}")
+    private String password;
 
     private final RabbitTemplate rabbitTemplate; // rabbitMQ 라이브러리 클래스
+
+    @Bean
+    public AmqpAdmin amqpAdmin() {
+        return new RabbitAdmin(rabbitTemplate.getConnectionFactory());
+    }
 
     @Bean// 큐 생성 빈
     public PartyChattingQueue partyChattingQueueImpl(){
@@ -56,16 +69,22 @@ public class RabbitMqConfig {
 //    }
 
 
-//    // 5번 튜토리얼 Consumer 빈 등록
-//    @Bean
-//    public Tut5Receiver receiver() {
-//        return new Tut5Receiver();
-//    }
+    // 5번 튜토리얼 Consumer 빈 등록
+    @Bean
+    public Tut5Receiver receiver() {
+        return new Tut5Receiver();
+    }
 
     @Bean
     public Queue hello2() {
         System.out.println("=========helo 큐 생성 및 빈 등록======");
         return new Queue("hello2");
+    }
+
+    @Bean
+    public Queue PartyChattingRoomQueueTest2() {
+        System.out.println("=========chattingRoomQueue 큐 생성 및 빈 등록======");
+        return new Queue("chatting-room-queue-test2");
     }
 
     @Bean
@@ -81,7 +100,7 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    public TopicExchange PartyChattingRoomTopicTest2() {
+    public TopicExchange partyChattingRoomTopicTest2() {
         return new TopicExchange("chatting-room-exchange-test2", true, false);
     }
 

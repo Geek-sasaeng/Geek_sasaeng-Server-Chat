@@ -18,8 +18,8 @@ public class PartyChattingQueue {
     private TopicExchange topicExchange;
     private RabbitTemplate rabbitTemplate;
 
-    static final String EXCHANGE_NAME = "chatting-room-exchange-test10";
-    static final String QUEUE_NAME = "test1";
+    static final String EXCHANGE_NAME = "chatting-room-exchange-test2";
+    static final String QUEUE_NAME = "chatting-room-queue-test9";
     static final String ROUTING_KEY = "chatting.test.room3.#"; // 라우팅 키, publishing 하는 방법을 결정.
     static final String FANOUT_EXCHANGE_NAME = "test1.fanout";
 
