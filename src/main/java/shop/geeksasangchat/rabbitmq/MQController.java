@@ -56,8 +56,6 @@ public class MQController {
             admin.declareQueue(queue);
         }
         Binding binding = new Binding(email, Binding.DestinationType.QUEUE, exchangeName, "asdf",null);
-
-        admin.declareQueue(queue);
         admin.declareBinding(binding);
         return "OK";
     }
