@@ -15,57 +15,52 @@ import shop.geeksasangchat.utils.jwt.NoIntercept;
 @RequestMapping("/rabbitmq")
 public class MQController {
     private final AmqpAdmin admin;
-
     private final RabbitTemplate rabbitTemplate;
-
     private final String EXCHANGE = "chatting-room-exchange-test2";
 
     @GetMapping("/create")
-    @NoIntercept
-    public String createChattingRoom(@RequestParam String email, @RequestParam String chatUUID){
+    @NoIntercept //TODO:개발을 위해 임시로 jwt 허용되게한 것. 추후 제거 바람.
+    public String createChattingRoom(@RequestParam String email, @RequestParam String chattingRoomUUID){
 
-        String exchangeName = "chatting-" + "exchange-" + chatUUID;
+        String exchangeName = "chatting-" + "exchange-" + chattingRoomUUID;
         Exchange exchange = new FanoutExchange(exchangeName);
         admin.declareExchange(exchange);
 
         Queue queue = new Queue(email, true, false, false);
-
-        QueueInformation queueInfo = admin.getQueueInfo("email");
+        QueueInformation queueInfo = admin.getQueueInfo(email); // 기존 큐 조회
         // 큐가 없으면 생성
         if(queueInfo == null){
             admin.declareQueue(queue);
         }
-        Binding binding = new Binding(email, Binding.DestinationType.QUEUE, exchangeName, "asdf",null);
 
-        admin.declareQueue(queue);
+        Binding binding = new Binding(email, Binding.DestinationType.QUEUE, exchangeName, "asdf",null); //TODO: fanoutExchange는 routingKey가 필요없지만 없으면 에러나서 임시로 입력 함.
         admin.declareBinding(binding);
 
         return "OK";
     }
 
     @GetMapping
-    @NoIntercept
-    public String joinChattingRoom(@RequestParam String email, @RequestParam String chatUUID){
-        String exchangeName = "chatting-" + "exchange-" + chatUUID;
+    @NoIntercept//TODO:개발을 위해 임시로 jwt 허용되게한 것. 추후 제거 바람.
+        public String joinChattingRoom(@RequestParam String email, @RequestParam String chattingRoomUUID){
+
+        String exchangeName = "chatting-" + "exchange-" + chattingRoomUUID;
 
         Queue queue = new Queue(email, true, false, false);
-
-        QueueInformation queueInfo = admin.getQueueInfo("email");
+        QueueInformation queueInfo = admin.getQueueInfo(email);
         // 큐가 없으면 생성
         if(queueInfo == null){
             admin.declareQueue(queue);
         }
-        Binding binding = new Binding(email, Binding.DestinationType.QUEUE, exchangeName, "asdf",null);
 
-        admin.declareQueue(queue);
+        Binding binding = new Binding(email, Binding.DestinationType.QUEUE, exchangeName, "asdf",null);
         admin.declareBinding(binding);
         return "OK";
     }
 
     @GetMapping("/msg")
-    @NoIntercept
-    public String sendMessage(@RequestParam String msg, @RequestParam String chatUUID){
-        String exchangeName = "chatting-" + "exchange-" + chatUUID;
+    @NoIntercept//TODO:개발을 위해 임시로 jwt 허용되게한 것. 추후 제거 바람.
+    public String sendMessage(@RequestParam String msg, @RequestParam String chattingRoomUUID){
+        String exchangeName = "chatting-" + "exchange-" + chattingRoomUUID;
 
         rabbitTemplate.convertAndSend(exchangeName, "asdf", msg);
         return "OK";
@@ -74,9 +69,7 @@ public class MQController {
     public String getRoutingKey(String queueName){
         String[] routingKey = queueName.split("\\.");
 
-
         StringBuilder sb = new StringBuilder();
-
         sb.append(routingKey[0]);
         sb.append(".");
         sb.append(routingKey[1]);
