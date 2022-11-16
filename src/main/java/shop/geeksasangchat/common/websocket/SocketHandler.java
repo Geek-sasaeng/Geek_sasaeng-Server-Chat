@@ -27,13 +27,13 @@ public class SocketHandler extends TextWebSocketHandler {
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) {
         String msg = message.getPayload();
-        System.out.println(msg);
+        System.out.println("전송하는 웹소켓 메시지="+msg);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
             ChattingVO chattingVO = mapper.readValue(msg, ChattingVO.class);
 
-            String exchangeName = "chatting-" + "exchange-" + chattingVO.getChatUUID();
+            String exchangeName = "chatting-" + "exchange-" + chattingVO.getChattingRoomUUID();
 
             rabbitTemplate.convertAndSend(exchangeName, "asd", chattingVO.getMsg());
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class SocketHandler extends TextWebSocketHandler {
     }
 
     /**
-     * 소켓 종료
+     *
      * @author 토마스, 네오
      */
     public String getRoutingKey(String queueName) {

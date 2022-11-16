@@ -6,6 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChattingVO {
-    private String chatUUID;
+    private String chattingRoomUUID;
+    private String chattingId;
+    private String email;
     private String msg;
 }
