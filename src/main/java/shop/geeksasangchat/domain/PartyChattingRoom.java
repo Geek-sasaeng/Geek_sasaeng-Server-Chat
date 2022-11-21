@@ -16,12 +16,9 @@ public class PartyChattingRoom extends ChattingRoom{
     private String title;
 
     //TODO:채팅과 일대다 연관관계 테스트 중
-//    @DBRef
-//    private List<Chatting> chattings;
     @DocumentReference // 일대다
     private List<Chatting> chattings = new ArrayList<>();
 
-//    @DocumentReference // 일대다
     private List<ParticipantInfo> participants = new ArrayList<>();
 
 //    private String accountNumber;
