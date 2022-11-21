@@ -10,13 +10,14 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.geeksasangchat.domain.Chatting;
-import shop.geeksasangchat.domain.ChattingRoom;
-import shop.geeksasangchat.domain.PartyChattingRoom;
+import shop.geeksasangchat.domain.*;
 import shop.geeksasangchat.rabbitmq.PartyChattingQueue;
 import shop.geeksasangchat.repository.ChattingRepository;
 import shop.geeksasangchat.repository.ChattingRoomRepository;
+import shop.geeksasangchat.repository.PartyChattingRoomRepository;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,11 +29,14 @@ public class PartyChattingService {
     private final ChattingRoomRepository chattingRoomRepository;
     private final ChattingRepository chattingRepository;
     private final PartyChattingQueue partyChattingQueue;
+    private final PartyChattingRoomRepository partyChattingRoomRepository;
 
     @Transactional(readOnly = false)
     public String createChattingRoom(int userId, String title){
-        PartyChattingRoom chattingRoom = new PartyChattingRoom(title);
-        PartyChattingRoom saveChattingRoom = chattingRoomRepository.save(chattingRoom);
+        List<Chatting> chattings = new ArrayList<>();
+        List<ParticipantInfo> participants = new ArrayList<>();
+        PartyChattingRoom chattingRoom = new PartyChattingRoom(title, chattings, participants);
+        PartyChattingRoom saveChattingRoom = partyChattingRoomRepository.save(chattingRoom);
         return saveChattingRoom.getId();
     }
 
@@ -42,6 +46,18 @@ public class PartyChattingService {
         Chatting saveChatting = chattingRepository.save(chatting);
         partyChattingQueue.send(saveChatting, chattingRoomId, participantsCnt); // 저장한 채팅 rabbitmq를 이용해 Consumer에게 메시지 전송
 
+    }
+
+    @Transactional(readOnly = false)
+    public void joinPartyChattingRoom(String chattingRoomId, LocalDateTime enterTime, boolean isRemittance, String nickName){
+
+        PartyChattingRoom partyChattingRoom = partyChattingRoomRepository.findByPartyChattingRoomId(chattingRoomId)
+                .orElseThrow(() -> new NullPointerException());
+
+        // 파티 입장하는 멤버 정보 추가
+        ParticipantInfo participantInfo = new ParticipantInfo(LocalDateTime.now(), isRemittance, nickName);
+        partyChattingRoom.changeParticipants(participantInfo);
+        partyChattingRoomRepository.save(partyChattingRoom); // MongoDB는 JPA처럼 변경감지가 안되어서 직접 저장해줘야 한다.
     }
 
     @Transactional(readOnly = true)

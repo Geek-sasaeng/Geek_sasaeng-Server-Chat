@@ -1,6 +1,8 @@
 package shop.geeksasangchat.common.websocket;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import shop.geeksasangchat.dto.PostChattingRes;
 import shop.geeksasangchat.rabbitmq.ChattingVO;
 
 import java.util.HashMap;
@@ -30,12 +33,29 @@ public class SocketHandler extends TextWebSocketHandler {
         System.out.println("전송하는 웹소켓 메시지="+msg);
 
         try {
-            ObjectMapper mapper = new ObjectMapper();
+//            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
             ChattingVO chattingVO = mapper.readValue(msg, ChattingVO.class);
 
             String exchangeName = "chatting-" + "exchange-" + chattingVO.getChattingRoomUUID();
 
-            rabbitTemplate.convertAndSend(exchangeName, "asd", chattingVO.getMsg());
+            // json 형식으로 변환 후 전송
+//            ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+//            PostChattingRes postChattingRes = new PostChattingRes(chattingRoomId, saveChatting.getContent(), saveChatting.getBaseEntity().getCreatedAt()); // ObjectMapper가 java8의 LocalDateTime을 지원하지 않는 에러 해결
+//            PostChattingRes postChattingRes = mapper.readValue(msg, PostChattingRes.class);
+            String saveChattingJsonStr = null;
+            try {
+                saveChattingJsonStr = mapper.writeValueAsString(chattingVO);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+//            for(int i=0;i<participantsCnt;i++){
+//                rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
+////            rabbitTemplate.convertAndSend(FANOUT_EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr);
+//            }
+
+            rabbitTemplate.convertAndSend(exchangeName, "asd", saveChattingJsonStr);
+
         } catch (Exception e) {
 
         }
