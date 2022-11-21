@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shop.geeksasangchat.common.exception.BaseException;
+import shop.geeksasangchat.common.exception.BaseResponseStatus;
 import shop.geeksasangchat.domain.*;
 import shop.geeksasangchat.rabbitmq.PartyChattingQueue;
 import shop.geeksasangchat.repository.ChattingRepository;
@@ -52,7 +54,7 @@ public class PartyChattingService {
     public void joinPartyChattingRoom(String chattingRoomId, LocalDateTime enterTime, boolean isRemittance, String nickName){
 
         PartyChattingRoom partyChattingRoom = partyChattingRoomRepository.findByPartyChattingRoomId(chattingRoomId)
-                .orElseThrow(() -> new NullPointerException());
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_EXISTS_CHATTING_ROOM));
 
         // 파티 입장하는 멤버 정보 추가
         ParticipantInfo participantInfo = new ParticipantInfo(LocalDateTime.now(), isRemittance, nickName);

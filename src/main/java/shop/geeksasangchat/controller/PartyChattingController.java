@@ -61,10 +61,20 @@ public class PartyChattingController {
         return new BaseResponse("채팅송신을 성공했습니다.");
     }
 
+    /**
+     * @author 토마스
+     */
+    @ApiOperation(value = "채팅방 멤버 추가", notes = "(jwt 토큰 필요)멤버의 정보만 추가")
+    @ApiResponses({
+            @ApiResponse(code = 1000 ,message ="요청에 성공하셨습니다."),
+            @ApiResponse(code = 2009, message ="존재하지 않는 멤버입니다"),
+            @ApiResponse(code = 2005, message ="채팅방이 존재하지 않습니다."),
+            @ApiResponse(code = 4000 ,message ="서버 오류입니다.")
+    })
     @PostMapping("/member")
     @NoIntercept //TODO:개발을 위해 임시로 jwt 허용되게한 것. 추후 제거 바람.
-    public BaseResponse<String> joinPartyChattingRoom(HttpServletRequest request, @RequestBody PostParticipantInfoReq postPartyChattingRoomMember){
-        partyChattingService.joinPartyChattingRoom(postPartyChattingRoomMember.getChattingRoomId(), LocalDateTime.now(), postPartyChattingRoomMember.getIsRemittance(), postPartyChattingRoomMember.getNickName());
+    public BaseResponse<String> joinPartyChattingRoom(HttpServletRequest request, @RequestBody PostParticipantInfoReq postParticipantInfoReq){
+        partyChattingService.joinPartyChattingRoom(postParticipantInfoReq.getChattingRoomId(), LocalDateTime.now(), postParticipantInfoReq.getIsRemittance(), postParticipantInfoReq.getNickName());
         return new BaseResponse("채팅방에 멤버가 추가되었습니다.");
     }
 

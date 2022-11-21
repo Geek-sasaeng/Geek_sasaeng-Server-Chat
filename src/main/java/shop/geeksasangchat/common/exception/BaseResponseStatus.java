@@ -22,7 +22,7 @@ public enum BaseResponseStatus {
     INVALID_JWT(false, 2002, "유효하지 않은 JWT입니다."),
     INVALID_USER_JWT(false,2003,"권한이 없는 유저의 접근입니다."),
     EXPIRED_JWT(false, 2004,"만료기간이 지난 JWT입니다. 재로그인 바랍니다."),
-
+    NOT_EXISTS_CHATTING_ROOM(false,2005,"채팅방이 존재하지 않습니다."),
 
 
     /**
