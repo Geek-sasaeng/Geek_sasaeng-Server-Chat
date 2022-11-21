@@ -16,7 +16,7 @@ import java.util.List;
 @Document //@Document는객체를 몽고DB에 영속화시킴 = SpringDataJpa의 @Entity와 같은 역할
 @ToString
 @Getter
-public class Chatting  implements Serializable {
+public class Chatting implements Serializable {
 
     @Id
     public String id;
@@ -28,9 +28,9 @@ public class Chatting  implements Serializable {
 
     private Boolean isSystemMessage;
 
-    private String senderNickName;
+    private String nickName;
 
-    private String senderImgUrl;
+    private String profileImgUrl;
 
     private List<String> readMembers = new ArrayList<>(); // 읽은 멤버 리스트
 
@@ -42,14 +42,14 @@ public class Chatting  implements Serializable {
         this.baseEntity = new BaseEntity();
     }
 
-    public Chatting(String content, PartyChattingRoom partyChattingRoom, Boolean isSystemMessage, String senderNickName, String senderImgUrl, List<String> readMembers) {
+    public Chatting(String content, PartyChattingRoom partyChattingRoom, Boolean isSystemMessage, String nickName, String profileImgUrl, List<String> readMembers, BaseEntity baseEntity) {
         this.content = content;
         this.partyChattingRoom = partyChattingRoom;
         this.isSystemMessage = isSystemMessage;
-        this.senderNickName = senderNickName;
-        this.senderImgUrl = senderImgUrl;
+        this.nickName = nickName;
+        this.profileImgUrl = profileImgUrl;
         this.readMembers = readMembers;
-        this.baseEntity = new BaseEntity();
+        this.baseEntity = baseEntity;
     }
 }
 
