@@ -12,6 +12,10 @@ import java.time.LocalDateTime;
 @Getter
 public class PostChattingRes {
 
+    private String chattingId;
+
+    private String email;
+
     @NotEmpty
     private String chattingRoomId;
 
@@ -26,4 +30,13 @@ public class PostChattingRes {
         this.content = content;
         this.createdAt = createdAt;
     }
+
+    public PostChattingRes(String email, String chattingRoomId, String content, LocalDateTime createdAt) {
+        this.email = email;
+        this.chattingRoomId = chattingRoomId;
+        this.content = content;
+        this.createdAt = createdAt;
+    }
+
+
 }

@@ -38,10 +38,11 @@ public class PartyChattingQueue {
     }
 
     // publish 메소드: 큐애 메시지 보내기
-    public void send(Chatting saveChatting, String chattingRoomId, int participantsCnt) {
+    public void send(Chatting saveChatting, String chattingRoomId) {
         System.out.println("====================" + chattingRoomId);
         System.out.println("chattingRoomId = " + chattingRoomId);
         System.out.println("saveChatting = " + saveChatting);
+        String exchangeName = "chatting-" + "exchange-" + chattingRoomId;
         // json 형식으로 변환 후 전송
         ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
         PostChattingRes postChattingRes = new PostChattingRes(chattingRoomId, saveChatting.getContent(), saveChatting.getBaseEntity().getCreatedAt()); // ObjectMapper가 java8의 LocalDateTime을 지원하지 않는 에러 해결
@@ -51,10 +52,10 @@ public class PartyChattingQueue {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        for(int i=0;i<participantsCnt;i++){
-            rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
+
+        rabbitTemplate.convertAndSend(exchangeName, chattingRoomId, saveChattingJsonStr); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
 //            rabbitTemplate.convertAndSend(FANOUT_EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr);
-        }
+
     }
 }
 
