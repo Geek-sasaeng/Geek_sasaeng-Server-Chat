@@ -21,6 +21,9 @@ public class PartyChattingRoom extends ChattingRoom{
 
     private List<ParticipantInfo> participants = new ArrayList<>();
 
+    @DocumentReference // 일대다
+    private List<PartyChattingRoomMember> partyChattingRoomMembers = new ArrayList<>();
+
 //    private String accountNumber;
 //    private String bank;
 //    private String category;
