@@ -35,31 +35,14 @@ public class SocketHandler extends TextWebSocketHandler {
         System.out.println("전송하는 웹소켓 메시지="+msg);
 
         try {
-//            ObjectMapper mapper = new ObjectMapper();
-//            ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
-//            ChattingVO chattingVO = mapper.readValue(msg, ChattingVO.class);
-
-
             // json 형식으로 변환 후 전송
             ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
-//            PostChattingRes postChattingRes = new PostChattingRes(chattingRoomId, saveChatting.getContent(), saveChatting.getBaseEntity().getCreatedAt()); // ObjectMapper가 java8의 LocalDateTime을 지원하지 않는 에러 해결
             PostChattingRes postChattingRes = mapper.readValue(msg, PostChattingRes.class);
 
             partyChattingService.createChatting(1, postChattingRes.getEmail(), postChattingRes.getChattingRoomId(), postChattingRes.getContent());//TODO: userId 넣는 부분 멤버 엔티티 구현 후 수정
-//            String exchangeName = "chatting-" + "exchange-" + postChattingRes.getChattingRoomId();
-//            String saveChattingJsonStr = null;
-//            try {
-//                saveChattingJsonStr = mapper.writeValueAsString(postChattingRes);
-//            } catch (JsonProcessingException e) {
-//                e.printStackTrace();
-//            }
-//
-//            rabbitTemplate.convertAndSend(exchangeName, "asdf", saveChattingJsonStr);
-
         } catch (Exception e) {
             System.out.println("웹소켓 메시지 전송 에러 발생");
         }
-
     }
 
     /**
