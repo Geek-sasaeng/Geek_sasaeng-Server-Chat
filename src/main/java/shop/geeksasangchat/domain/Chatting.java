@@ -34,6 +34,9 @@ public class Chatting implements Serializable {
 
     private List<String> readMembers = new ArrayList<>(); // 읽은 멤버 리스트
 
+    @DocumentReference
+    private List<ChattingMember> readChattingMembers = new ArrayList<>();
+
     @Unwrapped(onEmpty = Unwrapped.OnEmpty.USE_EMPTY)
     private BaseEntity baseEntity;
     
