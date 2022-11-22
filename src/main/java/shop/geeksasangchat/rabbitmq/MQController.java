@@ -41,7 +41,7 @@ public class MQController {
 
     @GetMapping
     @NoIntercept//TODO:개발을 위해 임시로 jwt 허용되게한 것. 추후 제거 바람.
-        public String joinChattingRoom(@RequestParam String email, @RequestParam String chattingRoomUUID){
+    public String joinChattingRoom(@RequestParam String email, @RequestParam String chattingRoomUUID){
 
         String exchangeName = "chatting-" + "exchange-" + chattingRoomUUID;
 
