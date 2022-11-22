@@ -41,20 +41,19 @@ public class PartyChattingController {
     }
 
     @PostMapping("/chatting")
-//    @NoIntercept //TODO:개발을 위해 임시로 jwt 허용되게한 것. 추후 제거 바람.
-//    public BaseResponse<String> createPartyChatting(HttpServletRequest request, @RequestBody PostChattingReq dto){
-//        JwtInfo jwtInfo = (JwtInfo) request.getAttribute("jwtInfo");
-//        System.out.println("dto.getChattingRoomId() = " + dto.getChattingRoomId());
-//        partyChattingService.createChatting(jwtInfo.getUserId(), dto.getChattingRoomId(), dto.getContent(), dto.getParticipantsCnt());
-//        return new BaseResponse("채팅송신을 성공했습니다.");
-//    }
-    @NoIntercept //TODO:개발을 위해 임시로 jwt 허용되게한 것. 추후 제거 바람.
     public BaseResponse<String> createPartyChatting(HttpServletRequest request, @RequestBody PostChattingReq dto){
-//        JwtInfo jwtInfo = (JwtInfo) request.getAttribute("jwtInfo");
+        JwtInfo jwtInfo = (JwtInfo) request.getAttribute("jwtInfo");
         System.out.println("dto.getChattingRoomId() = " + dto.getChattingRoomId());
-        partyChattingService.createChatting(1, dto.getChattingRoomId(), dto.getContent(), dto.getParticipantsCnt());
+        partyChattingService.createChatting(jwtInfo.getUserId(), "tomas", dto.getChattingRoomId(), dto.getContent());
         return new BaseResponse("채팅송신을 성공했습니다.");
     }
+//    @NoIntercept //TODO:개발을 위해 임시로 jwt 허용되게한 것. 추후 제거 바람.
+//    public BaseResponse<String> createPartyChatting(HttpServletRequest request, @RequestBody PostChattingReq dto){
+////        JwtInfo jwtInfo = (JwtInfo) request.getAttribute("jwtInfo");
+//        System.out.println("dto.getChattingRoomId() = " + dto.getChattingRoomId());
+//        partyChattingService.createChatting(1, dto.getChattingRoomId(), dto.getContent(), dto.getParticipantsCnt());
+//        return new BaseResponse("채팅송신을 성공했습니다.");
+//    }
 
     /**
      * @author 토마스

@@ -35,7 +35,6 @@ public class MQController {
 
         Binding binding = new Binding(email, Binding.DestinationType.QUEUE, exchangeName, "asdf",null); //TODO: fanoutExchange는 routingKey가 필요없지만 없으면 에러나서 임시로 입력 함.
         admin.declareBinding(binding);
-
         return "OK";
     }
 

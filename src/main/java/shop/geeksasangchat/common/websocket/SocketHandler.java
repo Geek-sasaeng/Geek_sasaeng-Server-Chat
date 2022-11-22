@@ -12,6 +12,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import shop.geeksasangchat.dto.PostChattingRes;
 import shop.geeksasangchat.rabbitmq.ChattingVO;
+import shop.geeksasangchat.service.PartyChattingService;
 
 import java.util.HashMap;
 
@@ -20,6 +21,7 @@ import java.util.HashMap;
 public class SocketHandler extends TextWebSocketHandler {
     private final RabbitTemplate rabbitTemplate;
     private final String EXCHANGE = "chatting-room-exchange-test2";
+    private final PartyChattingService partyChattingService;
 
     HashMap<String, WebSocketSession> sessionMap = new HashMap<>(); //웹소켓 세션을 담아둘 맵
 
@@ -34,30 +36,28 @@ public class SocketHandler extends TextWebSocketHandler {
 
         try {
 //            ObjectMapper mapper = new ObjectMapper();
-            ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
-            ChattingVO chattingVO = mapper.readValue(msg, ChattingVO.class);
+//            ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+//            ChattingVO chattingVO = mapper.readValue(msg, ChattingVO.class);
 
-            String exchangeName = "chatting-" + "exchange-" + chattingVO.getChattingRoomUUID();
 
             // json 형식으로 변환 후 전송
-//            ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+            ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 //            PostChattingRes postChattingRes = new PostChattingRes(chattingRoomId, saveChatting.getContent(), saveChatting.getBaseEntity().getCreatedAt()); // ObjectMapper가 java8의 LocalDateTime을 지원하지 않는 에러 해결
-//            PostChattingRes postChattingRes = mapper.readValue(msg, PostChattingRes.class);
-            String saveChattingJsonStr = null;
-            try {
-                saveChattingJsonStr = mapper.writeValueAsString(chattingVO);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-//            for(int i=0;i<participantsCnt;i++){
-//                rabbitTemplate.convertAndSend(EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr); // convertAndSend(exchange, 라우팅 키, 메시지 내용) : EXCHANGE를 통해 라우팅 키에 해당하는 큐에 메시지 전송.
-////            rabbitTemplate.convertAndSend(FANOUT_EXCHANGE_NAME, chattingRoomId, saveChattingJsonStr);
-//            }
+            PostChattingRes postChattingRes = mapper.readValue(msg, PostChattingRes.class);
 
-            rabbitTemplate.convertAndSend(exchangeName, "asd", saveChattingJsonStr);
+            partyChattingService.createChatting(1, postChattingRes.getEmail(), postChattingRes.getChattingRoomId(), postChattingRes.getContent());//TODO: userId 넣는 부분 멤버 엔티티 구현 후 수정
+//            String exchangeName = "chatting-" + "exchange-" + postChattingRes.getChattingRoomId();
+//            String saveChattingJsonStr = null;
+//            try {
+//                saveChattingJsonStr = mapper.writeValueAsString(postChattingRes);
+//            } catch (JsonProcessingException e) {
+//                e.printStackTrace();
+//            }
+//
+//            rabbitTemplate.convertAndSend(exchangeName, "asdf", saveChattingJsonStr);
 
         } catch (Exception e) {
-
+            System.out.println("웹소켓 메시지 전송 에러 발생");
         }
 
     }
