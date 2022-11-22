@@ -9,20 +9,30 @@ import org.springframework.data.mongodb.core.mapping.Unwrapped;
 import shop.geeksasangchat.common.domain.BaseEntity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 //Serializable : 자바에서 직렬화를 통해 object를 빠르게 보낼 수 있음/ 외부로 데이터 보내는데 필요?
 @Document //@Document는객체를 몽고DB에 영속화시킴 = SpringDataJpa의 @Entity와 같은 역할
 @ToString
 @Getter
-public class Chatting  implements Serializable {
+public class Chatting implements Serializable {
 
     @Id
     public String id;
 
     public String content;
-//
-//    @DocumentReference(lazy = true)
-//    private PartyChattingRoom partyChattingRoom;
+
+    @DocumentReference(lazy = true) // 다대일
+    private PartyChattingRoom partyChattingRoom;
+
+    private Boolean isSystemMessage;
+
+    private String nickName;
+
+    private String profileImgUrl;
+
+    private List<String> readMembers = new ArrayList<>(); // 읽은 멤버 리스트
 
     @Unwrapped(onEmpty = Unwrapped.OnEmpty.USE_EMPTY)
     private BaseEntity baseEntity;
@@ -31,12 +41,16 @@ public class Chatting  implements Serializable {
         this.content = content;
         this.baseEntity = new BaseEntity();
     }
-//
-//    public Chatting(String content, PartyChattingRoom partyChattingRoom) {
-//        this.content = content;
-//        this.partyChattingRoom = partyChattingRoom;
-//        this.baseEntity = new BaseEntity();
-//    }
+
+    public Chatting(String content, PartyChattingRoom partyChattingRoom, Boolean isSystemMessage, String nickName, String profileImgUrl, List<String> readMembers, BaseEntity baseEntity) {
+        this.content = content;
+        this.partyChattingRoom = partyChattingRoom;
+        this.isSystemMessage = isSystemMessage;
+        this.nickName = nickName;
+        this.profileImgUrl = profileImgUrl;
+        this.readMembers = readMembers;
+        this.baseEntity = baseEntity;
+    }
 }
 
 /**

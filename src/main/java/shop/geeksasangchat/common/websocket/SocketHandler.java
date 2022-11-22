@@ -1,6 +1,8 @@
 package shop.geeksasangchat.common.websocket;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -8,7 +10,9 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import shop.geeksasangchat.dto.PostChattingRes;
 import shop.geeksasangchat.rabbitmq.ChattingVO;
+import shop.geeksasangchat.service.PartyChattingService;
 
 import java.util.HashMap;
 
@@ -17,47 +21,59 @@ import java.util.HashMap;
 public class SocketHandler extends TextWebSocketHandler {
     private final RabbitTemplate rabbitTemplate;
     private final String EXCHANGE = "chatting-room-exchange-test2";
-
+    private final PartyChattingService partyChattingService;
 
     HashMap<String, WebSocketSession> sessionMap = new HashMap<>(); //웹소켓 세션을 담아둘 맵
 
+    /**
+    * 메시지 발송
+    * @author 토마스, 네오
+     */
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) {
-        //메시지 발송
         String msg = message.getPayload();
-        System.out.println(msg);
+        System.out.println("전송하는 웹소켓 메시지="+msg);
 
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            ChattingVO chattingVO = mapper.readValue(msg, ChattingVO.class);
+            // json 형식으로 변환 후 전송
+            ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+            PostChattingRes postChattingRes = mapper.readValue(msg, PostChattingRes.class);
 
-            String exchangeName = "chatting-" + "exchange-" + chattingVO.getChatUUID();
-
-            rabbitTemplate.convertAndSend(exchangeName, "asd", chattingVO.getMsg());
+            partyChattingService.createChatting(1, postChattingRes.getEmail(), postChattingRes.getChattingRoomId(), postChattingRes.getContent());//TODO: userId 넣는 부분 멤버 엔티티 구현 후 수정
         } catch (Exception e) {
-
+            System.out.println("웹소켓 메시지 전송 에러 발생");
         }
-
     }
 
+    /**
+     * 소켓 연결
+     * @author 토마스, 네오
+     */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        //소켓 연결
+
         super.afterConnectionEstablished(session);
         sessionMap.put(session.getId(), session);
         System.out.println("connect");
     }
 
+    /**
+     * 소켓 종료
+     * @author 토마스, 네오
+     */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        //소켓 종료
+
         sessionMap.remove(session.getId());
         super.afterConnectionClosed(session, status);
     }
 
+    /**
+     *
+     * @author 토마스, 네오
+     */
     public String getRoutingKey(String queueName) {
         String[] routingKey = queueName.split("\\.");
-
 
         StringBuilder sb = new StringBuilder();
 
@@ -65,7 +81,6 @@ public class SocketHandler extends TextWebSocketHandler {
         sb.append(".");
         sb.append(routingKey[1]);
         sb.append(".*");
-
         return sb.toString();
     }
 }
