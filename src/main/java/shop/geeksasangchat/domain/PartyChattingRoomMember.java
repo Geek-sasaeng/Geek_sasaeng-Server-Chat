@@ -19,9 +19,6 @@ public class PartyChattingRoomMember {
     public String id;
 
     @DocumentReference(lazy = true) // 다대일
-    private ChattingMember participant;
-
-    @DocumentReference(lazy = true) // 다대일
     private PartyChattingRoom partyChattingRoom;
 
 }
