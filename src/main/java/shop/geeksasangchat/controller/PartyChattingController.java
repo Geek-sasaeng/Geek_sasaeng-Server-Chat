@@ -68,7 +68,7 @@ public class PartyChattingController {
     @PostMapping("/member")
     @NoIntercept //TODO:개발을 위해 임시로 jwt 허용되게한 것. 추후 제거 바람.
     public BaseResponse<String> joinPartyChattingRoom(HttpServletRequest request, @RequestBody PostParticipantInfoReq postParticipantInfoReq){
-        partyChattingService.joinPartyChattingRoom(postParticipantInfoReq.getChattingRoomId(), LocalDateTime.now(), postParticipantInfoReq.getIsRemittance(), postParticipantInfoReq.getNickName());
+        partyChattingService.joinPartyChattingRoom(postParticipantInfoReq.getChattingRoomId(), LocalDateTime.now(), postParticipantInfoReq.getIsRemittance(), postParticipantInfoReq.getMemberId());
         return new BaseResponse("채팅방에 멤버가 추가되었습니다.");
     }
 

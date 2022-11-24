@@ -21,14 +21,14 @@ public class PartyChattingRoom extends ChattingRoom{
 
     private List<ParticipantInfo> participants = new ArrayList<>();
 
-    @DocumentReference // 일대다
-    private List<PartyChattingRoomMember> partyChattingRoomMembers = new ArrayList<>();
+//    @DocumentReference // 일대다
+//    private List<PartyChattingRoomMember> participants = new ArrayList<>();
 
-//    private String accountNumber;
-//    private String bank;
-//    private String category;
-//    private boolean isFinish;
-//    private Integer maxMatching;
+    private String accountNumber;
+    private String bank;
+    private String category;
+    private Boolean isFinish;
+    private Integer maxMatching;
 
     public PartyChattingRoom(String title) {
         super();
@@ -41,10 +41,16 @@ public class PartyChattingRoom extends ChattingRoom{
         this.chattings = chattings;
     }
 
-    public PartyChattingRoom(String title, List<Chatting> chattings, List<ParticipantInfo> participants) {
+    public PartyChattingRoom(String title, List<Chatting> chattings, List<ParticipantInfo> participants, String accountNumber, String bank, String category, Boolean isFinish, Integer maxMatching) {
+        super();
         this.title = title;
         this.chattings = chattings;
         this.participants = participants;
+        this.accountNumber = accountNumber;
+        this.bank = bank;
+        this.category = category;
+        this.isFinish = isFinish;
+        this.maxMatching = maxMatching;
     }
 
     @Override

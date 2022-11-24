@@ -16,9 +16,11 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 public class PartyChattingRoomMember {
 
     @Id
-    public String id;
+    private String id;
 
-    @DocumentReference(lazy = true) // 다대일
-    private PartyChattingRoom partyChattingRoom;
+    private int memberId;
+
+//    @DocumentReference(lazy = true) // 다대일
+//    private PartyChattingRoom partyChattingRoom;
 
 }

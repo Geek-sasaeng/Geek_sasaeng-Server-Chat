@@ -3,6 +3,7 @@ package shop.geeksasangchat.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -13,13 +14,16 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class ParticipantInfo {
+    @Id
+    private Long id;
+
     private LocalDateTime enterTime;
     private boolean isRemittance;
-    private String nickName;
+    private Long memberId;
 
-    public ParticipantInfo(LocalDateTime enterTime, boolean isRemittance, String nickName) {
+    public ParticipantInfo(LocalDateTime enterTime, boolean isRemittance, Long memberId) {
         this.enterTime = enterTime;
         this.isRemittance = isRemittance;
-        this.nickName = nickName;
+        this.memberId = memberId;
     }
 }

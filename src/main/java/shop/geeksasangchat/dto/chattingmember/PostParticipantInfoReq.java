@@ -13,6 +13,6 @@ public class PostParticipantInfoReq {
     private String chattingRoomId;
 
     private Boolean isRemittance;
-    @NotEmpty
-    private String nickName;
+
+    private Long memberId;
 }
