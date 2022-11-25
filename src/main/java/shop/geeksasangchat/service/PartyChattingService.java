@@ -43,7 +43,7 @@ public class PartyChattingService {
     public String createChattingRoom(int userId, String title){
         List<Chatting> chattings = new ArrayList<>();
         List<ParticipantInfo> participants = new ArrayList<>();
-        PartyChattingRoom chattingRoom = new PartyChattingRoom(title, chattings, participants);
+        PartyChattingRoom chattingRoom = new PartyChattingRoom(title, chattings, participants, "123", "국민", "Delivery", false, 5);
         PartyChattingRoom saveChattingRoom = partyChattingRoomRepository.save(chattingRoom);
         return saveChattingRoom.getId();
     }
@@ -68,13 +68,14 @@ public class PartyChattingService {
     }
 
     @Transactional(readOnly = false)
-    public void joinPartyChattingRoom(String chattingRoomId, LocalDateTime enterTime, boolean isRemittance, String nickName){
+    public void joinPartyChattingRoom(String chattingRoomId, LocalDateTime enterTime, boolean isRemittance, Long memberId){
 
         PartyChattingRoom partyChattingRoom = partyChattingRoomRepository.findByPartyChattingRoomId(chattingRoomId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_EXISTS_CHATTING_ROOM));
 
         // 파티 입장하는 멤버 정보 추가
-        ParticipantInfo participantInfo = new ParticipantInfo(LocalDateTime.now(), isRemittance, nickName);
+        ParticipantInfo participantInfo = new ParticipantInfo(LocalDateTime.now(), isRemittance, memberId);
+
         partyChattingRoom.changeParticipants(participantInfo);
         partyChattingRoomRepository.save(partyChattingRoom); // MongoDB는 JPA처럼 변경감지가 안되어서 직접 저장해줘야 한다.
     }

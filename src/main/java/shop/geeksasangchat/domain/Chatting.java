@@ -32,7 +32,7 @@ public class Chatting implements Serializable {
 
     private String profileImgUrl;
 
-    private List<String> readMembers = new ArrayList<>(); // 읽은 멤버 리스트
+    private List<Long> readMembers = new ArrayList<>(); // 읽은 멤버 ID 리스트
 
     @Unwrapped(onEmpty = Unwrapped.OnEmpty.USE_EMPTY)
     private BaseEntity baseEntity;
@@ -42,7 +42,7 @@ public class Chatting implements Serializable {
         this.baseEntity = new BaseEntity();
     }
 
-    public Chatting(String content, PartyChattingRoom partyChattingRoom, Boolean isSystemMessage, String nickName, String profileImgUrl, List<String> readMembers, BaseEntity baseEntity) {
+    public Chatting(String content, PartyChattingRoom partyChattingRoom, Boolean isSystemMessage, String nickName, String profileImgUrl, List<Long> readMembers, BaseEntity baseEntity) {
         this.content = content;
         this.partyChattingRoom = partyChattingRoom;
         this.isSystemMessage = isSystemMessage;
