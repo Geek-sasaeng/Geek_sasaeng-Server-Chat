@@ -75,6 +75,7 @@ public class PartyChattingService {
 
         // 파티 입장하는 멤버 정보 추가
         ParticipantInfo participantInfo = new ParticipantInfo(LocalDateTime.now(), isRemittance, memberId);
+
         partyChattingRoom.changeParticipants(participantInfo);
         partyChattingRoomRepository.save(partyChattingRoom); // MongoDB는 JPA처럼 변경감지가 안되어서 직접 저장해줘야 한다.
     }
